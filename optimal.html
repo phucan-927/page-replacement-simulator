@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thuật toán OPTIMAL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #4FC3F7, #0288D1); /* Bầu trời đến biển sâu */
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Container cho background thiên nhiên */
+    .nature-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    /* Video background biển */
+    .nature-bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.8;
+    }
+
+    /* Canvas cho sóng biển và bọt sóng */
+    canvas#waveCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      mix-blend-mode: screen; /* Hòa trộn với video */
+    }
+
+    /* Núi nền */
+    .mountains {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center / cover;
+      z-index: 1;
+      animation: parallax-mountains 100s linear infinite;
+      opacity: 0.7;
+    }
+
+    /* Rừng cây foreground */
+    .forest {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') repeat-x bottom / 100% auto;
+      z-index: 2;
+      animation: parallax-forest 60s linear infinite;
+      opacity: 0.85;
+    }
+
+    /* Mây trôi */
+    .clouds {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: url('https://images.unsplash.com/photo-1491596965909-45a6c9fd6d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') repeat-x top / 100% auto;
+      z-index: 1;
+      animation: clouds-move 120s linear infinite;
+      opacity: 0.65;
+    }
+
+    /* Sương mù dày */
+    .mist {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.6), transparent);
+      z-index: 2;
+      animation: mist-move 50s linear infinite;
+      filter: blur(20px);
+    }
+
+    /* Ánh nắng nhấp nháy */
+    .sunlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 25%;
+      background: radial-gradient(rgba(255, 235, 59, 0.5), transparent);
+      z-index: 1;
+      animation: sunlight-pulse 30s ease-in-out infinite;
+      opacity: 0.7;
+    }
+
+    /* Lá rơi dày */
+    .leaf {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: url('https://png.pngtree.com/png-clipart/20220925/ourmid/pngtree-green-leaf-fall-png-image_6217219.png') no-repeat center / contain;
+      z-index: 4;
+      animation: fall 7s linear infinite;
+      pointer-events: none;
+    }
+
+    .leaf:nth-child(1) { left: 5%; animation-delay: 0s; }
+    .leaf:nth-child(2) { left: 15%; animation-delay: 0.5s; }
+    .leaf:nth-child(3) { left: 25%; animation-delay: 1s; }
+    .leaf:nth-child(4) { left: 35%; animation-delay: 1.5s; }
+    .leaf:nth-child(5) { left: 45%; animation-delay: 2s; }
+    .leaf:nth-child(6) { left: 55%; animation-delay: 2.5s; }
+    .leaf:nth-child(7) { left: 65%; animation-delay: 3s; }
+    .leaf:nth-child(8) { left: 75%; animation-delay: 3.5s; }
+    .leaf:nth-child(9) { left: 85%; animation-delay: 4s; }
+    .leaf:nth-child(10) { left: 95%; animation-delay: 4.5s; }
+
+    /* Chim bay đa dạng */
+    .bird {
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      background: url('https://png.pngtree.com/png-clipart/20200224/original/pngtree-flying-bird-silhouette-png-image_5234969.jpg') no-repeat center / contain;
+      z-index: 3;
+      animation: fly 10s linear infinite;
+    }
+
+    .bird:nth-child(1) { top: 8%; left: 0; animation-delay: 0s; animation-duration: 12s; }
+    .bird:nth-child(2) { top: 12%; left: 0; animation-delay: 2s; animation-duration: 10s; }
+    .bird:nth-child(3) { top: 16%; left: 0; animation-delay: 4s; animation-duration: 14s; }
+    .bird:nth-child(4) { top: 20%; left: 0; animation-delay: 6s; animation-duration: 11s; }
+
+    /* Cá bơi trong sóng */
+    .fish {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: url('https://png.pngtree.com/png-clipart/20200224/original/pngtree-fish-icon-cartoon-style-png-image_5231914.jpg') no-repeat center / contain;
+      z-index: 4;
+      animation: swim 15s linear infinite;
+    }
+
+    .fish:nth-child(1) { bottom: 20%; left: 0; animation-delay: 0s; }
+    .fish:nth-child(2) { bottom: 25%; left: 0; animation-delay: 3s; }
+    .fish:nth-child(3) { bottom: 30%; left: 0; animation-delay: 6s; }
+
+    /* Gió thổi mạnh */
+    .wind {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.15), transparent);
+      z-index: 2;
+      animation: wind-blow 10s linear infinite;
+    }
+
+    @keyframes parallax-mountains {
+      0% { background-position: 0 50%; }
+      100% { background-position: -1200px 50%; }
+    }
+
+    @keyframes parallax-forest {
+      0% { background-position: 0 100%; }
+      100% { background-position: -1000px 100%; }
+    }
+
+    @keyframes clouds-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 1500px 0; }
+    }
+
+    @keyframes mist-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(800px); }
+    }
+
+    @keyframes sunlight-pulse {
+      0% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.1); }
+      100% { opacity: 0.7; transform: scale(1); }
+    }
+
+    @keyframes fall {
+      0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 1; }
+      100% { top: 100%; transform: translateX(200px) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes fly {
+      0% { transform: translateX(-100px) translateY(0); }
+      100% { transform: translateX(100vw) translateY(60px); }
+    }
+
+    @keyframes swim {
+      0% { transform: translateX(-100px) translateY(0); }
+      100% { transform: translateX(100vw) translateY(30px); }
+    }
+
+    @keyframes wind-blow {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    h1 {
+      color: #fff;
+      margin: 100px 0;
+      font-size: 60px;
+      text-shadow: 0 6px 20px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 255, 255, 0.6);
+      z-index: 5;
+      animation: fadeInTitle 2.5s ease-out;
+      letter-spacing: 2px;
+    }
+
+    @keyframes fadeInTitle {
+      from { opacity: 0; transform: translateY(-100px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px); /* Hiệu ứng kính mờ */
+      padding: 70px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      max-width: 900px;
+      z-index: 5;
+      animation: fadeIn 2.2s ease-out;
+      transition: transform 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-10px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(80px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    label {
+      font-weight: 700;
+      margin-top: 30px;
+      display: block;
+      color: #fff;
+      font-size: 28px;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      letter-spacing: 1px;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 22px;
+      margin-top: 15px;
+      margin-bottom: 40px;
+      border-radius: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 24px;
+      box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #40C4FF;
+      box-shadow: 0 0 25px rgba(64, 196, 255, 0.6);
+      outline: none;
+    }
+
+    button {
+      padding: 22px 50px;
+      background: linear-gradient(to right, #0288D1, #4FC3F7);
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      font-size: 26px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(2, 136, 209, 0.6);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #01579B, #0288D1);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(2, 136, 209, 0.8);
+    }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+    }
+
+    button:hover::after {
+      left: 100%;
+    }
+
+    #result {
+      margin-top: 50px;
+      font-size: 32px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      animation: resultFade 0.5s ease-in;
+    }
+
+    @keyframes resultFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+  <script src="js/optimal.js"></script>
+</head>
+<body>
+  <!-- Background thiên nhiên -->
+  <div class="nature-bg">
+    <video autoplay muted loop class="nature-bg-video">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-ocean-1164-large.mp4" type="video/mp4">
+    </video>
+    <div class="mountains"></div>
+    <div class="clouds"></div>
+    <div class="sunlight"></div>
+    <div class="mist"></div>
+    <div class="forest"></div>
+    <div class="wind"></div>
+    <canvas id="waveCanvas"></canvas>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="bird"></div>
+    <div class="bird"></div>
+    <div class="bird"></div>
+    <div class="bird"></div>
+    <div class="fish"></div>
+    <div class="fish"></div>
+    <div class="fish"></div>
+  </div>
+
+  <!-- Âm thanh sóng -->
+  <audio id="waveSound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-sea-waves-loop-1190.mp3" type="audio/mpeg">
+  </audio>
+
+  <h1>Mô phỏng Thuật toán OPTIMAL</h1>
+
+  <div class="container">
+    <label for="pagesInput">🌊 Dãy trang (cách nhau bởi dấu phẩy):</label>
+    <input type="text" id="pagesInput" value="1,2,3,4,1,2,5,1,2,3,4,5">
+
+    <label for="frameInput">🏝 Số khung trang:</label>
+    <input type="number" id="frameInput" value="3" min="1">
+
+    <button onclick="runTest()">🌴 Chạy mô phỏng</button>
+
+    <p id="result">Kết quả sẽ hiển thị ở đây</p>
+  </div>
+
+  <script>
+    // Hiệu ứng sóng biển vỗ full-screen bằng Canvas
+    const canvas = document.getElementById('waveCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Thiết lập kích thước canvas
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Thông số sóng
+    const waves = [
+      { amplitude: 60, wavelength: 450, speed: 0.07, offset: 0, color: 'rgba(0, 105, 148, 0.7)' },
+      { amplitude: 50, wavelength: 400, speed: 0.05, offset: 200, color: 'rgba(0, 191, 255, 0.6)' },
+      { amplitude: 55, wavelength: 350, speed: 0.06, offset: 400, color: 'rgba(70, 130, 180, 0.5)' }
+    ];
+
+    let time = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+
+    // Tương tác chuột
+    canvas.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      waves.forEach(wave => {
+        wave.amplitude = 60 + (mouseX / canvas.width) * 40;
+        wave.speed = 0.07 + (mouseY / canvas.height) * 0.03;
+      });
+    });
+
+    function drawWaves() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      waves.forEach(wave => {
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+
+        for (let x = 0; x < canvas.width; x++) {
+          const y = Math.sin((x / wave.wavelength) + time * wave.speed + wave.offset) * wave.amplitude + canvas.height * 0.7;
+          ctx.lineTo(x, y);
+        }
+
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.closePath();
+        ctx.fillStyle = wave.color;
+        ctx.fill();
+
+        // Bọt sóng chi tiết
+        ctx.beginPath();
+        for (let x = 0; x < canvas.width; x += 8) {
+          const y = Math.sin((x / wave.wavelength) + time * wave.speed + wave.offset) * wave.amplitude + canvas.height * 0.7;
+          if (Math.random() > 0.7) {
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+          }
+        }
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fill();
+
+        // Ánh sáng phản chiếu
+        ctx.beginPath();
+        for (let x = 0; x < canvas.width; x += 20) {
+          const y = Math.sin((x / wave.wavelength) + time * wave.speed + wave.offset) * wave.amplitude + canvas.height * 0.7 - 10;
+          if (Math.random() > 0.9) {
+            ctx.arc(x, y, 6, 0, Math.PI * 2);
+          }
+        }
+        ctx.fillStyle = 'rgba(255, 245, 157, 0.4)';
+        ctx.fill();
+      });
+
+      time += 0.1;
+      requestAnimationFrame(drawWaves);
+    }
+
+    drawWaves();
+
+    // Hàm chạy mô phỏng OPTIMAL và phát âm thanh
+    function runTest() {
+      const pagesStr = document.getElementById("pagesInput").value;
+      const pages = pagesStr.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+      const frameCount = parseInt(document.getElementById("frameInput").value);
+
+      if (pages.length === 0 || isNaN(frameCount) || frameCount <= 0) {
+        document.getElementById("result").innerText = "❗ Vui lòng nhập đúng dãy trang và số khung trang.";
+        return;
+      }
+
+      const result = simulateOPT(pages, frameCount);
+      document.getElementById("result").innerText = `🏖 Số lần page fault: ${result}`;
+
+      // Phát âm thanh sóng
+      const waveSound = document.getElementById('waveSound');
+      waveSound.volume = 0.3;
+      waveSound.play();
+    }
+  </script>
+</body>
+</html>
