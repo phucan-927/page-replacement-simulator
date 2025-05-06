@@ -14,13 +14,12 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(to bottom, #4FC3F7, #0288D1); /* Bầu trời đến biển sâu */
+      background: linear-gradient(to bottom, #4FC3F7, #0288D1);
       color: #fff;
       position: relative;
       overflow: hidden;
     }
 
-    /* Container cho background thiên nhiên */
     .nature-bg {
       position: absolute;
       top: 0;
@@ -31,7 +30,6 @@
       overflow: hidden;
     }
 
-    /* Video background biển */
     .nature-bg-video {
       position: absolute;
       top: 0;
@@ -43,7 +41,6 @@
       opacity: 0.8;
     }
 
-    /* Canvas cho sóng biển và bọt sóng */
     canvas#waveCanvas {
       position: absolute;
       top: 0;
@@ -51,10 +48,9 @@
       width: 100%;
       height: 100%;
       z-index: 3;
-      mix-blend-mode: screen; /* Hòa trộn với video */
+      mix-blend-mode: screen;
     }
 
-    /* Núi nền */
     .mountains {
       position: absolute;
       bottom: 0;
@@ -67,7 +63,6 @@
       opacity: 0.7;
     }
 
-    /* Rừng cây foreground */
     .forest {
       position: absolute;
       bottom: 0;
@@ -80,7 +75,6 @@
       opacity: 0.85;
     }
 
-    /* Mây trôi */
     .clouds {
       position: absolute;
       top: 0;
@@ -93,7 +87,6 @@
       opacity: 0.65;
     }
 
-    /* Sương mù dày */
     .mist {
       position: absolute;
       bottom: 0;
@@ -106,7 +99,6 @@
       filter: blur(20px);
     }
 
-    /* Ánh nắng nhấp nháy */
     .sunlight {
       position: absolute;
       top: 0;
@@ -119,7 +111,6 @@
       opacity: 0.7;
     }
 
-    /* Lá rơi dày */
     .leaf {
       position: absolute;
       width: 30px;
@@ -141,7 +132,6 @@
     .leaf:nth-child(9) { left: 85%; animation-delay: 4s; }
     .leaf:nth-child(10) { left: 95%; animation-delay: 4.5s; }
 
-    /* Chim bay đa dạng */
     .bird {
       position: absolute;
       width: 45px;
@@ -156,7 +146,6 @@
     .bird:nth-child(3) { top: 16%; left: 0; animation-delay: 4s; animation-duration: 14s; }
     .bird:nth-child(4) { top: 20%; left: 0; animation-delay: 6s; animation-duration: 11s; }
 
-    /* Cá bơi trong sóng */
     .fish {
       position: absolute;
       width: 35px;
@@ -170,7 +159,6 @@
     .fish:nth-child(2) { bottom: 25%; left: 0; animation-delay: 3s; }
     .fish:nth-child(3) { bottom: 30%; left: 0; animation-delay: 6s; }
 
-    /* Gió thổi mạnh */
     .wind {
       position: absolute;
       top: 0;
@@ -228,117 +216,155 @@
       100% { transform: translateX(100%); }
     }
 
+    @keyframes label-pulse {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0); }
+    }
+
     h1 {
       color: #fff;
-      margin: 100px 0;
-      font-size: 60px;
-      text-shadow: 0 6px 20px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 255, 255, 0.6);
+      margin: 120px 0;
+      font-size: 64px;
+      text-shadow: 0 8px 25px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 255, 255, 0.7);
       z-index: 5;
-      animation: fadeInTitle 2.5s ease-out;
-      letter-spacing: 2px;
+      animation: fadeInTitle 2.8s ease-out;
+      letter-spacing: 3px;
     }
 
     @keyframes fadeInTitle {
-      from { opacity: 0; transform: translateY(-100px); }
+      from { opacity: 0; transform: translateY(-120px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(15px); /* Hiệu ứng kính mờ */
-      padding: 70px;
-      border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      padding: 80px;
+      border-radius: 60px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(255, 255, 255, 0.3);
       width: 100%;
-      max-width: 900px;
+      max-width: 950px;
       z-index: 5;
-      animation: fadeIn 2.2s ease-out;
-      transition: transform 0.3s ease;
+      animation: fadeIn 2.5s ease-out;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
     .container:hover {
-      transform: translateY(-10px);
+      transform: translateY(-15px);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 70px rgba(255, 255, 255, 0.5);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(80px); }
+      from { opacity: 0; transform: translateY(100px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     label {
       font-weight: 700;
-      margin-top: 30px;
+      margin-top: 35px;
       display: block;
       color: #fff;
-      font-size: 28px;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      letter-spacing: 1px;
+      font-size: 30px;
+      text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 255, 255, 0.5);
+      letter-spacing: 1.5px;
+      animation: label-pulse 4s ease-in-out infinite;
     }
 
     input[type="text"], input[type="number"] {
       width: 100%;
-      padding: 22px;
-      margin-top: 15px;
-      margin-bottom: 40px;
-      border-radius: 15px;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      background: rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      margin-top: 20px;
+      margin-bottom: 45px;
+      border-radius: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(64, 196, 255, 0.3));
       color: #fff;
-      font-size: 24px;
-      box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    input:focus {
-      border-color: #40C4FF;
-      box-shadow: 0 0 25px rgba(64, 196, 255, 0.6);
-      outline: none;
-    }
-
-    button {
-      padding: 22px 50px;
-      background: linear-gradient(to right, #0288D1, #4FC3F7);
-      color: #fff;
-      border: none;
-      border-radius: 15px;
       font-size: 26px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 12px 30px rgba(2, 136, 209, 0.6);
-      transition: all 0.3s ease;
+      box-shadow: inset 0 3px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(64, 196, 255, 0.4);
+      transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
     }
 
-    button:hover {
-      background: linear-gradient(to right, #01579B, #0288D1);
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(2, 136, 209, 0.8);
+    input:focus {
+      border-color: #40C4FF;
+      box-shadow: 0 0 30px rgba(64, 196, 255, 0.8), 0 0 50px rgba(255, 255, 255, 0.5);
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(64, 196, 255, 0.4));
+      outline: none;
     }
 
-    button::after {
+    input::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: 0.5s;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: input-shine 3s linear infinite;
     }
 
-    button:hover::after {
-      left: 100%;
+    @keyframes input-shine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    button {
+      padding: 25px 60px;
+      background: linear-gradient(45deg, #0288D1, #4FC3F7, #0288D1);
+      background-size: 200% 100%;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      font-size: 28px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(2, 136, 209, 0.7), 0 0 30px rgba(255, 255, 255, 0.4);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    button:hover {
+      background-position: 100% 0;
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(2, 136, 209, 0.9), 0 0 40px rgba(255, 255, 255, 0.6);
+    }
+
+    button:active {
+      transform: translateY(-4px) scale(0.98);
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+      z-index: -1;
+    }
+
+    button:active::before {
+      width: 300px;
+      height: 300px;
+      opacity: 0;
     }
 
     #result {
-      margin-top: 50px;
-      font-size: 32px;
+      margin-top: 60px;
+      font-size: 34px;
       font-weight: bold;
       color: #fff;
       text-align: center;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.5);
       animation: resultFade 0.5s ease-in;
     }
 
@@ -347,7 +373,6 @@
       to { opacity: 1; }
     }
   </style>
-  <script src="js/optimal.js"></script>
 </head>
 <body>
   <!-- Background thiên nhiên -->
@@ -479,26 +504,7 @@
     }
 
     drawWaves();
-
-    // Hàm chạy mô phỏng OPTIMAL và phát âm thanh
-    function runTest() {
-      const pagesStr = document.getElementById("pagesInput").value;
-      const pages = pagesStr.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
-      const frameCount = parseInt(document.getElementById("frameInput").value);
-
-      if (pages.length === 0 || isNaN(frameCount) || frameCount <= 0) {
-        document.getElementById("result").innerText = "❗ Vui lòng nhập đúng dãy trang và số khung trang.";
-        return;
-      }
-
-      const result = simulateOPT(pages, frameCount);
-      document.getElementById("result").innerText = `🏖 Số lần page fault: ${result}`;
-
-      // Phát âm thanh sóng
-      const waveSound = document.getElementById('waveSound');
-      waveSound.volume = 0.3;
-      waveSound.play();
-    }
   </script>
+  <script src="optimal.js"></script>
 </body>
 </html>
