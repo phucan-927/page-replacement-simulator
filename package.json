@@ -1,0 +1,16 @@
+{
+  "name": "page-replacement-simulator",
+  "version": "1.0.0",
+  "description": "Dự án này mô phỏng các thuật toán thay thế trang trong hệ điều hành, bao gồm các thuật toán phổ biến như **FIFO (First iN,First Out)**, **LRU (Least Recently Used)** và **Optimal**. Mục tiêu là giúp người dùng hiểu cách hoạt động của thuật toán này trong việc quản lí hệ điều hành.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

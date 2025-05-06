@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LRU Page Replacement</title>
+</head>
+<body>
+  <h1>Mô phỏng LRU</h1>
+
+  <label>Chuỗi trang (ngăn cách bởi dấu phẩy):</label>
+  <input type="text" id="input" value="7, 0, 1, 2, 0, 3, 0, 4"><br>
+
+  <label>Số khung trang:</label>
+  <input type="number" id="frames" value="3"><br>
+
+  <button onclick="runLru()">Chạy mô phỏng</button>
+
+  <div id="result"></div>
+
+
+  <script src="js/lru.js"></script>
+</body>
+</html>

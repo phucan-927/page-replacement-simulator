@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Clock Page Replacement</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Thuật Toán Clock</h1>
+    <nav>
+      <ul>
+        <li><a href="clock.html">Clock</a></li>
+        <li><a href="sort.html">Sort</a></li>
+        <li><a href="search.html">Search</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="box blue">
+    <h2>Mô phỏng thuật toán Clock</h2>
+
+    <label for="input"><strong>Chuỗi trang (cách nhau bằng dấu phẩy):</strong></label><br>
+    <input type="text" id="input" value="7, 0, 1, 2, 0, 3, 0, 4"><br><br>
+
+    <label for="frames"><strong>Số khung trang:</strong></label><br>
+    <input type="number" id="frames" value="3"><br><br>
+
+    <button onclick="runClock()">Chạy mô phỏng</button>
+
+    <div id="result" style="margin-top: 20px;"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 - Thuật toán quản lý bộ nhớ
+  </footer>
+
+  <script src="js/clock.js"></script>
+</body>
+</html>

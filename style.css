@@ -1,0 +1,105 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    color: #fff;
+    padding: 15px 30px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 20px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #ffdd57;
+}
+
+/* --- Khung Thuật Toán --- */
+.algorithm-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 30px 20px;
+    gap: 20px;
+}
+
+.algorithm-box {
+    width: 30%;
+    min-width: 300px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.algorithm-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+
+.algorithm-box h2 {
+    text-align: center;
+}
+
+/* Các màu khung khác nhau */
+.box-green {
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+}
+
+.box-blue {
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+}
+
+.box-purple {
+    background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+}
+
+/* Nút hiện đại */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    color: #f1f1f1;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
