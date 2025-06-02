@@ -1,35 +1,42 @@
-
-
 function simulateOPT(pages, frameSize) {
-    let memory = [];
+    const memory = [];
     let faults = 0;
-  
-    for (let i = 0; i < pages.length; i++) {
-      let page = pages[i];
-      if (memory.includes(page)) continue;
-  
-      if (memory.length < frameSize) {
-        memory.push(page);
-      } else {
-        let farthest = -1;
-        let indexToReplace = -1;
-  
-        for (let j = 0; j < memory.length; j++) {
-          let nextUse = pages.slice(i + 1).indexOf(memory[j]);
-          if (nextUse === -1) {
-            indexToReplace = j;
-            break;
-          } else if (nextUse > farthest) {
-            farthest = nextUse;
-            indexToReplace = j;
-          }
-        }
-  
-        memory[indexToReplace] = page;
-      }
-      faults++;
-    }
-  
-    return faults;
-  }  
 
+    for (let i = 0; i < pages.length; i++) {
+        const currentPage = pages[i];
+
+        if (memory.includes(currentPage)) {
+            continue; // Page hit
+        }
+
+        // Page fault
+        faults++;
+
+        if (memory.length < frameSize) {
+            memory.push(currentPage);
+        } else {
+            // Tìm trang có vị trí truy cập tiếp theo xa nhất
+            let indexToReplace = -1;
+            let farthestIndex = -1;
+
+            for (let j = 0; j < memory.length; j++) {
+                const pageInMemory = memory[j];
+                const nextUse = pages.slice(i + 1).indexOf(pageInMemory);
+
+                if (nextUse === -1) {
+                    indexToReplace = j;
+                    break; // Không còn dùng trang này nữa
+                }
+
+                if (nextUse > farthestIndex) {
+                    farthestIndex = nextUse;
+                    indexToReplace = j;
+                }
+            }
+
+            memory[indexToReplace] = currentPage;
+        }
+    }
+
+    return faults;
+}

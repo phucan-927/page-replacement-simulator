@@ -1,40 +1,57 @@
-function lru(pages, capacity) {
-    let cache = [];
-    let faults = 0;
-    let steps = [];
-  
-    for (let i = 0; i < pages.length; i++) {
-      const page = pages[i];
-      if (!cache.includes(page)) {
-        if (cache.length >= capacity) {
-          cache.shift(); // bỏ trang ít được dùng nhất
-        }
-        faults++;
+function runLru() {
+  const input = document.getElementById('input').value.split(',').map(x => parseInt(x.trim()));
+  const framesCount = parseInt(document.getElementById('frames').value);
+  const frames = [];
+  const history = [];
+  let resultHTML = '';
+
+  input.forEach((page, index) => {
+    let frameIndex = frames.indexOf(page);
+
+    if (frameIndex === -1) {
+      // Page fault
+      if (frames.length < framesCount) {
+        frames.push(page);
       } else {
-        // Đưa trang về cuối để thể hiện là mới dùng
-        cache.splice(cache.indexOf(page), 1);
+        // Tìm trang ít sử dụng gần đây nhất (LRU)
+        let lruPage = null;
+        let lruPos = Infinity;  // dùng Infinity để tìm min
+
+        frames.forEach(f => {
+          // tìm vị trí lần truy cập gần nhất của f trong history
+          // nếu không tìm thấy thì gán -1 (đánh dấu chưa được dùng)
+          let lastUsedIndex = -1;
+          for (let i = history.length - 1; i >= 0; i--) {
+            if (history[i] === f) {
+              lastUsedIndex = i;
+              break;
+            }
+          }
+
+          // nếu trang chưa được dùng bao giờ (lastUsedIndex = -1), ưu tiên thay thế luôn
+          if (lastUsedIndex === -1) {
+            lruPage = f;
+            lruPos = -1;
+            return;
+          }
+
+          // tìm trang có vị trí truy cập gần đây nhất nhỏ nhất (tức ít được dùng gần đây nhất)
+          if (lastUsedIndex < lruPos) {
+            lruPos = lastUsedIndex;
+            lruPage = f;
+          }
+        });
+
+        let lruIndex = frames.indexOf(lruPage);
+        frames[lruIndex] = page;
       }
-      cache.push(page);
-      steps.push([...cache]);
     }
-  
-    return { faults, steps };
-  }
-  
-  function runLRU() {
-    const input = document.getElementById("input").value;
-    const frames = parseInt(document.getElementById("frames").value);
-    const pages = input.split(",").map(p => parseInt(p.trim()));
-  
-    const result = lru(pages, frames);
-  
-    let html = `<p>Số lỗi trang: <strong>${result.faults}</strong></p>`;
-    html += `<h3>Trạng thái từng bước:</h3><ul>`;
-    result.steps.forEach((step, i) => {
-      html += `<li>Bước ${i + 1}: [${step.join(", ")}]</li>`;
-    });
-    html += `</ul>`;
-  
-    document.getElementById("result").innerHTML = html;
-  }
-  
+
+    history.push(page);
+    if (history.length > 100) history.shift();
+
+    resultHTML += `<p>Bước ${index + 1}: Trang ${page} → [${frames.join(', ')}]</p>`;
+  });
+
+  document.getElementById('result').innerHTML = resultHTML;
+}
