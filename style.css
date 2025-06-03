@@ -1,19 +1,17 @@
-/* ===== Style nền hồng (pink theme) ===== */
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom, #ffe6f0, #fff0f5); /* nền hồng nhạt */
-    color: #333;
+    background: linear-gradient(to bottom, #e0f7fa, #f1f8e9); /* xanh pastel nhẹ */
+    color: #2e4a4f;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* gradient hồng */
-    color: #fff;
+    background: linear-gradient(135deg, #a8edea, #dcedc1); /* gradient xanh pastel */
+    color: #2e4a4f;
     padding: 15px 30px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 4px 10px rgba(100, 200, 180, 0.3);
 }
 
 header nav ul {
@@ -28,14 +26,14 @@ header nav ul li {
 }
 
 header nav ul li a {
-    color: #fff;
+    color: #2e4a4f;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s;
 }
 
 header nav ul li a:hover {
-    color: #fff0c4;
+    color: #558b2f;
 }
 
 /* --- Khung Thuật Toán --- */
@@ -52,38 +50,38 @@ header nav ul li a:hover {
     min-width: 300px;
     padding: 20px;
     border-radius: 20px;
-    background: linear-gradient(145deg, #ffc1cc, #ffe5ec);
-    box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
-    border: 1px solid #f8c0d0;
+    background: linear-gradient(145deg, #c8e6c9, #e0f2f1); /* xanh pastel */
+    box-shadow: 0 10px 25px rgba(150, 200, 180, 0.4);
+    border: 1px solid #a5d6a7;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .algorithm-box:hover {
     transform: translateY(-10px);
-    box-shadow: 0 14px 28px rgba(255, 105, 180, 0.5);
+    box-shadow: 0 14px 28px rgba(85, 150, 130, 0.5);
 }
 
 .algorithm-box h2 {
     text-align: center;
-    color: #d63384;
+    color: #33691e;
 }
 
 /* Các màu khung khác nhau */
 .box-green {
-    background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+    background: linear-gradient(135deg, #dcedc1, #f0f4c3);
 }
 
 .box-blue {
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    background: linear-gradient(135deg, #b3e5fc, #e1f5fe);
 }
 
 .box-purple {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    background: linear-gradient(135deg, #e1bee7, #f3e5f5);
 }
 
-/* Nút hiện đại - màu hồng */
+/* Nút hiện đại - xanh pastel */
 button {
-    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+    background: linear-gradient(135deg, #81d4fa, #aed581);
     color: white;
     border: none;
     padding: 12px 25px;
@@ -91,23 +89,23 @@ button {
     border-radius: 30px;
     cursor: pointer;
     margin-top: 15px;
-    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+    box-shadow: 0 8px 20px rgba(100, 180, 150, 0.3);
     transition: background 0.3s ease, transform 0.2s;
 }
 
 button:hover {
-    background: linear-gradient(135deg, #f857a6, #ff5858);
+    background: linear-gradient(135deg, #4fc3f7, #9ccc65);
     transform: scale(1.07);
 }
 
-/* Footer ngọt ngào */
+/* Footer xanh pastel */
 footer {
     text-align: center;
     padding: 15px;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    color: #fff;
+    background: linear-gradient(135deg, #a8edea, #dcedc1);
+    color: #2e4a4f;
     position: fixed;
     width: 100%;
     bottom: 0;
-    box-shadow: 0 -4px 12px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 -4px 12px rgba(85, 178, 158, 0.3);
 }
