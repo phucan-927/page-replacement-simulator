@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Clock Page Replacement</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #f1f8e9);
+      color: #2e4a4f;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(135deg, #81d4fa, #aed581);
+      color: #fff;
+      padding: 20px 30px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(100, 200, 180, 0.3);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    .box {
+      max-width: 600px;
+      background: #ffffffcc;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(150, 200, 180, 0.3);
+    }
+
+    .box h2 {
+      text-align: center;
+      color: #33691e;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #a5d6a7;
+      background-color: #f0fefb;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #81d4fa, #aed581);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(100, 180, 150, 0.3);
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #4fc3f7, #9ccc65);
+      transform: scale(1.05);
+    }
+
+    #result {
+      background: #e0f2f1;
+      padding: 15px;
+      border-radius: 10px;
+      min-height: 30px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: linear-gradient(135deg, #a8edea, #dcedc1);
+      color: #2e4a4f;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -4px 12px rgba(85, 178, 158, 0.3);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Thuật Toán Clock</h1>
+  </header>
+
+  <div class="box">
+    <h2>Mô phỏng thuật toán Clock</h2>
+
+    <label for="input"><strong>Chuỗi trang (cách nhau bằng dấu phẩy):</strong></label>
+    <input type="text" id="input" value="7, 0, 1, 2, 0, 3, 0, 4">
+
+    <label for="frames"><strong>Số khung trang:</strong></label>
+    <input type="number" id="frames" value="3">
+
+    <button onclick="runClock()">Chạy mô phỏng</button>
+
+    <div id="result"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 - Thuật toán quản lý bộ nhớ
+  </footer>
+
+  <script src="js/clock.js"></script>
+</body>
+</html>

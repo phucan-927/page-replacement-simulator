@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>LRU Page Replacement</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #f1f8e9);
+      color: #2e4a4f;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+      color: #33691e;
+      font-size: 32px;
+    }
+
+    .container {
+      max-width: 600px;
+      background: #ffffffcc;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(150, 200, 180, 0.3);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #a5d6a7;
+      border-radius: 10px;
+      background: #f0fefb;
+      font-size: 16px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #81d4fa, #aed581);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(100, 180, 150, 0.3);
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #4fc3f7, #9ccc65);
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 30px;
+      padding: 15px;
+      background: #e0f2f1;
+      border-radius: 10px;
+      font-size: 16px;
+      min-height: 30px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: linear-gradient(135deg, #a8edea, #dcedc1);
+      color: #2e4a4f;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -4px 12px rgba(85, 178, 158, 0.3);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mô phỏng Thuật toán LRU</h1>
+
+  <div class="container">
+    <label for="input">Chuỗi trang (ngăn cách bởi dấu phẩy):</label>
+    <input type="text" id="input" value="7, 0, 1, 2, 0, 3, 0, 4">
+
+    <label for="frames">Số khung trang:</label>
+    <input type="number" id="frames" value="3" min="1">
+
+    <button onclick="runLru()">Chạy mô phỏng</button>
+
+    <div id="result"></div>
+  </div>
+
+  <footer>© 2025 Mô phỏng Page Replacement</footer>
+
+  <script src="js/lru.js"></script>
+</body>
+</html>
