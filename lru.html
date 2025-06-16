@@ -1,23 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>LRU Page Replacement</title>
+  <title>Mô phỏng LRU</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eef3f6;
+      color: #333;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2d6a4f;
+      margin-bottom: 20px;
+    }
+
+    input, button {
+      padding: 8px;
+      margin: 5px;
+      font-size: 16px;
+    }
+
+    #result {
+      margin-top: 30px;
+    }
+
+    .frame-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .frame {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #2d6a4f;
+      border-radius: 10px;
+      margin: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      font-size: 20px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .highlight {
+      background-color: #95d5b2 !important;
+    }
+
+    .page-fault {
+      color: red;
+      margin-top: 10px;
+    }
+
+    .step-info {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .ref-string {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    .ref-item {
+      display: inline-block;
+      padding: 5px 8px;
+      margin: 2px;
+      border-radius: 6px;
+      background: #cad2c5;
+      color: #000;
+    }
+
+    .active-ref {
+      background: #2d6a4f;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
-  <h1>Mô phỏng LRU</h1>
+  <h1>Mô phỏng LRU (Least Recently Used)</h1>
 
-  <label>Chuỗi trang (ngăn cách bởi dấu phẩy):</label>
-  <input type="text" id="input" value="7, 0, 1, 2, 0, 3, 0, 4"><br>
-
+  <label>Chuỗi trang:</label>
+  <input type="text" id="input" value="7,0,1,2,0,3,0,4">
   <label>Số khung trang:</label>
-  <input type="number" id="frames" value="3"><br>
-
+  <input type="number" id="frames" value="3">
   <button onclick="runLru()">Chạy mô phỏng</button>
 
   <div id="result"></div>
 
+  <script>
+    async function runLru() {
+      const input = document.getElementById("input").value;
+      const frameCount = parseInt(document.getElementById("frames").value);
+      const referenceString = input.split(',').map(x => x.trim());
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
 
-  <script src="js/lru.js"></script>
+      let frames = [];
+      let history = [];
+      let pageFaults = 0;
+
+      const refDiv = document.createElement("div");
+      refDiv.className = "ref-string";
+      referenceString.forEach((page, i) => {
+        const span = document.createElement("span");
+        span.className = "ref-item";
+        span.id = `ref-${i}`;
+        span.textContent = page;
+        refDiv.appendChild(span);
+      });
+      resultDiv.appendChild(refDiv);
+
+      for (let i = 0; i < referenceString.length; i++) {
+        const page = referenceString[i];
+
+        // Đánh dấu trang hiện tại
+        document.querySelectorAll(".ref-item").forEach(el => el.classList.remove("active-ref"));
+        document.getElementById(`ref-${i}`).classList.add("active-ref");
+
+        const stepInfo = document.createElement("div");
+        stepInfo.className = "step-info";
+        stepInfo.innerHTML = `<strong>Bước ${i + 1}</strong>: Truy cập trang <strong>${page}</strong>`;
+        resultDiv.appendChild(stepInfo);
+
+        const frameContainer = document.createElement("div");
+        frameContainer.className = "frame-container";
+
+        let index = frames.indexOf(page);
+
+        if (index === -1) {
+          // Trang lỗi
+          pageFaults++;
+          if (frames.length < frameCount) {
+            frames.push(page);
+          } else {
+            // Loại bỏ trang ít sử dụng gần nhất
+            const leastRecent = history.find(p => frames.includes(p));
+            const removeIndex = frames.indexOf(leastRecent);
+            frames[removeIndex] = page;
+          }
+          stepInfo.innerHTML += `<div class="page-fault">Lỗi trang!</div>`;
+        } else {
+          // Trang đã có, không lỗi trang
+        }
+
+        history = history.filter(p => p !== page);
+        history.push(page);
+
+        // Vẽ khung hiện tại
+        for (let j = 0; j < frameCount; j++) {
+          const div = document.createElement("div");
+          div.className = "frame";
+          if (frames[j]) div.textContent = frames[j];
+          if (frames[j] === page) div.classList.add("highlight");
+          frameContainer.appendChild(div);
+        }
+
+        resultDiv.appendChild(frameContainer);
+        await new Promise(resolve => setTimeout(resolve, 1000)); // delay 1s mỗi bước
+      }
+
+      const summary = document.createElement("div");
+      summary.className = "step-info";
+      summary.innerHTML = `<strong>Tổng số lỗi trang: ${pageFaults}</strong>`;
+      resultDiv.appendChild(summary);
+    }
+  </script>
 </body>
 </html>
